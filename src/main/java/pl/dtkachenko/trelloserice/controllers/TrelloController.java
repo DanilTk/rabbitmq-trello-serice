@@ -5,17 +5,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.dtkachenko.trelloserice.service.TrelloService;
+import pl.dtkachenko.trelloserice.service.QueueService;
 
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1")
 public class TrelloController {
-    private TrelloService trelloService;
+    private QueueService queueService;
 
     @PostMapping("/tasks")
     ResponseEntity publishOnQueue() {
-        trelloService.publishTasks();
+        queueService.publishTasks();
         return ResponseEntity.ok().body(null);
     }
 }

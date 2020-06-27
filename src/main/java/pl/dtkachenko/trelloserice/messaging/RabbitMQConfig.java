@@ -1,5 +1,8 @@
 package pl.dtkachenko.trelloserice.messaging;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.StdDateFormat;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
@@ -10,12 +13,12 @@ import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.messaging.converter.MappingJackson2MessageConverter;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Configuration
 @EnableScheduling
-public class RabbitConfig {
+public class RabbitMQConfig {
     @Value("${rabbitmq.queueName}")
     public String QUEUE_NAME = "trello-queue";
     @Value("${rabbitmq.routingKey}")
@@ -26,7 +29,7 @@ public class RabbitConfig {
     @Bean
     RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
-        rabbitTemplate.setMessageConverter(producerConverter());
+        rabbitTemplate.setMessageConverter(messageConverter());
         return rabbitTemplate;
     }
 
@@ -36,7 +39,7 @@ public class RabbitConfig {
     }
 
     @Bean
-    Binding trelloBinding(Queue queue, TopicExchange exchange) {
+    Binding binding(Queue queue, TopicExchange exchange) {
         return BindingBuilder.bind(queue).to(exchange).with(ROUTING_KEY);
     }
 
@@ -46,12 +49,12 @@ public class RabbitConfig {
     }
 
     @Bean
-    Jackson2JsonMessageConverter producerConverter() {
-        return new Jackson2JsonMessageConverter();
-    }
+    Jackson2JsonMessageConverter messageConverter() {
+        ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json()
+                .modules(new JavaTimeModule())
+                .dateFormat(new StdDateFormat())
+                .build();
 
-    @Bean
-    MappingJackson2MessageConverter consumerConverter() {
-        return new MappingJackson2MessageConverter();
+        return new Jackson2JsonMessageConverter(objectMapper);
     }
 }
