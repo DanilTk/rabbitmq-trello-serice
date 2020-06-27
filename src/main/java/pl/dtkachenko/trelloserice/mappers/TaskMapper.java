@@ -6,9 +6,8 @@ import org.mapstruct.Mappings;
 import pl.dtkachenko.trelloserice.model.Task;
 import pl.dtkachenko.trelloserice.model.TrelloTask;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Mapper(componentModel = "spring")
 public interface TaskMapper {
@@ -20,11 +19,11 @@ public interface TaskMapper {
     Task map(TrelloTask task);
 
 
-    default Date stringToDate(String date) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    default LocalDateTime stringToDate(String date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         try {
-            return format.parse(date);
-        } catch (ParseException e) {
+            return LocalDateTime.parse(date, formatter);
+        } catch (NullPointerException e) {
             return null;
         }
     }
