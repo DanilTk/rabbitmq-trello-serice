@@ -10,10 +10,14 @@ rabbitmq:
   routingKey: trello-key
   queueName: trello-queue
   exchangeName: trello-exchange
-spring:
-  rabbitmq:
-    addresses: amqp://gkfhmmyj:8875H8iutKHq4NJh4PHULqQGgJSOAmRF@rattlesnake.rmq.cloudamqp.com/gkfhmmyj
-    port: 5673
+
+
+
+# Connection via web-service
+#spring:
+#  rabbitmq:
+#    addresses: amqp://gkfhmmyj:8875H8iutKHq4NJh4PHULqQGgJSOAmRF@rattlesnake.rmq.cloudamqp.com/gkfhmmyj
+#    port: 5673
 
 #spring.rabbitmq.host=rattlesnake.rmq.cloudamqp.com
 #spring.rabbitmq.port=5672
