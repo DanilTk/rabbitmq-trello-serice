@@ -11,9 +11,7 @@ rabbitmq:
   queueName: trello-queue
   exchangeName: trello-exchange
 
-
-
-# Connection via web-service
+# Connection to rabbit via web-service
 #spring:
 #  rabbitmq:
 #    addresses: amqp://gkfhmmyj:8875H8iutKHq4NJh4PHULqQGgJSOAmRF@rattlesnake.rmq.cloudamqp.com/gkfhmmyj
