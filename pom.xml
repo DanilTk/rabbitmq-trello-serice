@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>pl.dtkachenko</groupId>
-    <artifactId>trello-serice</artifactId>
+    <artifactId>rabbit-trello-serice</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>trello-serice</name>
+    <name>rabbit-trello-serice</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
